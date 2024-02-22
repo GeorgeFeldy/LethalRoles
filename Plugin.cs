@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 
@@ -10,7 +11,13 @@ namespace LethalRoles
         private void Awake()
         {
             NetcodePatcherSetup();
+            PatchHooks();
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} has been loaded!");
+        }
+
+        private void PatchHooks()
+        {
+            Harmony.CreateAndPatchAll(typeof(TerminalHooks));
         }
 
         private void NetcodePatcherSetup()

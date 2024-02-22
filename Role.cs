@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LethalRoles
+﻿namespace LethalRoles
 {
     public enum Role
     {
+        None = -1,
         Scout,
         Hauler,
         Cleaner,
