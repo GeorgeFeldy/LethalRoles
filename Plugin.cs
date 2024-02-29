@@ -1,9 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using LethalRoles.Managers;
+using LethalRoles.Core;
 using LethalRoles.Patches;
 using LethalRoles.Patches.PlayerController;
+using LethalRoles.Roles;
 using System.Reflection;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace LethalRoles
         {
             NetcodePatcherSetup();
 
-            LoadComponents();
+            RegisterRoles();
 
             Harmony harmony = new(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
@@ -28,10 +29,13 @@ namespace LethalRoles
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} has been sucessfully loaded!");
         }
 
-        private static void LoadComponents()
+        private static void RegisterRoles()
         {
-            new GameObject("RolesManager").AddComponent<RoleManager>();
-            new GameObject("RolePowerManager").AddComponent<PlayerPowerManager>();
+            new GameObject("RoleManager").AddComponent<RoleManager>();
+            RoleManager.Instance.RegisterRole<Scout>();
+            RoleManager.Instance.RegisterRole<Hauler>();
+            RoleManager.Instance.RegisterRole<Cleaner>();
+            RoleManager.Instance.RegisterRole<Techie>();
         }
 
         private void NetcodePatcherSetup()

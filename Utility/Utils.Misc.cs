@@ -1,6 +1,6 @@
 ﻿using BepInEx.Logging;
 using GameNetcodeStuff;
-using LethalRoles.Managers;
+using LethalRoles.Core;
 using System;
 using System.Reflection;
 
@@ -8,17 +8,9 @@ namespace LethalRoles.Utility
 {
     public static partial class Utils
     {
-        // TODO: maybe Enum.Parse or even unhardcode for more roles
-        public static Role GetRoleFromString(string role)
+        public static Role GetRole(this PlayerControllerB player)
         {
-            return role switch
-            {
-                "Scout" or "scout" => Role.Scout,
-                "Hauler" or "hauler" => Role.Scout,
-                "Cleaner" or "cleaner" => Role.Scout,
-                "Techie" or "techie" => Role.Scout,
-                _ => Role.None,
-            };
+            return RoleManager.Instance.GetRole(player);
         }
 
         public static PlayerControllerB FindPlayerById(ulong clientId)
