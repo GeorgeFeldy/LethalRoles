@@ -1,11 +1,15 @@
-﻿using GameNetcodeStuff;
+﻿using BepInEx.Logging;
+using GameNetcodeStuff;
+using LethalRoles.Managers;
 using System;
 using System.Reflection;
 
-namespace LethalRoles
+namespace LethalRoles.Utility
 {
     public static partial class Utils
     {
+        public static ManualLogSource Logger => Plugin.Logger;
+
         // TODO: maybe Enum.Parse or even unhardcode for more roles
         public static Role GetRoleFromString(string role)
         {

@@ -1,41 +1,7 @@
-﻿$SteamLibraryInfoPath = "C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"
-
-if ( -not [System.IO.File]::Exists($SteamLibraryInfoPath) )
-{
-    Write-Host "Fatal error: Cannot find Steam." -ForegroundColor Red
-    exit
-}
-
-# Get all of the user's Steam Library folders
-$RawSteamLibsList = Select-String -Path $SteamLibraryInfoPath -Pattern "`"path`""
-
-# Make an array of only the paths
-$SteamLibsList = $RawSteamLibsList | % { $_.ToString().Split("`t")[4].Trim('"').Replace("\\", "\") }
-
-# Ask user to select where Lethal Company is installed
-Write-Host "Select the Steam library folder where you have installed Lethal Company from the list below [default: 1]:" -ForegroundColor Blue
-foreach ($idx in (0..($SteamLibsList.Length - 1)))
-{
-    Write-Host "$($idx + 1). " -ForegroundColor Yellow -NoNewline
-    Write-Host "$($SteamLibsList[$idx])"
-}
-$RawSelection = Read-Host -Prompt "Make a selection"
-Write-Host ""
-$Selection = (0)
-if ( $RawSelection -ne "" )
-{
-    $Selection = (([int]$RawSelection) - 1)
-}
-
-# Validate selection
-if ( ($Selection -lt 0) -or ($Selection -ge $SteamLibsList.Length) )
-{
-    Write-Host "Fatal error: Selection invalid." -ForegroundColor Red
-    exit
-}
+﻿. "Scripts\FindLethalCompanyPath.ps1"
+$LCPath = FindLethalCompanyPath
 
 # Check for Lethal Company
-$LCPath = "$($SteamLibsList[$Selection])\steamapps\common\Lethal Company"
 Write-Host "Checking for Lethal Company game files in " -ForegroundColor Blue -NoNewline
 Write-Host "$LCPath" -ForegroundColor Yellow -NoNewline
 Write-Host "..." -ForegroundColor Blue
@@ -63,3 +29,4 @@ Get-ChildItem "$LCPath\Lethal Company_Data\Managed" -Recurse | Where-Object { -n
     }
 }
 Write-Host "Done!" -ForegroundColor Green
+

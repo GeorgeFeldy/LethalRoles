@@ -3,10 +3,11 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <AssemblyName>LethalRoles</AssemblyName>
-        <Description>My first plugin</Description>
+        <Description>TBD</Description>
         <Version>1.0.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
+        <DebugType>Full</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -46,12 +47,17 @@
         </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+
     <PropertyGroup>
-        <NoWarn>$(NoWarn);IDE0051</NoWarn> <!-- Unused private methods are expected, due to Unity -->
+        <NoWarn>$(NoWarn);IDE0051</NoWarn>
+        <OutputType>Library</OutputType> <!-- Unused private methods are expected, due to Unity -->
     </PropertyGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Command="powershell .\Scripts\PostBuild.ps1 " />
-        <Exec Command="netcode-patch &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')"/>
+        <Exec Command="netcode-patch &quot;$(TargetPath)&quot; @(ReferencePathWithRefAssemblies->'&quot;%(Identity)&quot;', ' ')" />
     </Target>
 </Project>

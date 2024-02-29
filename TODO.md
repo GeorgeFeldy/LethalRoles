@@ -41,3 +41,8 @@ Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum
 
 Would you like to take this formation? CONFIRM or DENY.
 ```
+
+# Code TODO
+- OOP-ize the roles. Add virtuals for powers, description, etc. 
+- Add a way to register roles programatically.
+- Player power hooks for all of the above.

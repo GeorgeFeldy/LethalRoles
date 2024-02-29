@@ -1,23 +1,35 @@
 ﻿using BepInEx;
+using BepInEx.Logging;
 using HarmonyLib;
+using LethalRoles.Managers;
+using LethalRoles.Patches;
 using System.Reflection;
 using UnityEngine;
 
 namespace LethalRoles
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+
     public class Plugin : BaseUnityPlugin
     {
+        public static new ManualLogSource Logger;
+
         private void Awake()
         {
             NetcodePatcherSetup();
-            PatchHooks();
-            Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} has been loaded!");
+
+            LoadComponents();
+            Harmony.CreateAndPatchAll(typeof(TerminalPatcher));
+
+            Logger = BepInEx.Logging.Logger.CreateLogSource(PluginInfo.PLUGIN_NAME);
+            Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} has been sucessfully loaded!");
+
         }
 
-        private void PatchHooks()
+        private static void LoadComponents()
         {
-            Harmony.CreateAndPatchAll(typeof(TerminalHooks));
+            new GameObject("RolesManager").AddComponent<RoleManager>();
+            new GameObject("RolePowerManager").AddComponent<PlayerPowerManager>();
         }
 
         private void NetcodePatcherSetup()
