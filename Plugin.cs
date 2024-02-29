@@ -3,6 +3,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using LethalRoles.Managers;
 using LethalRoles.Patches;
+using LethalRoles.Patches.PlayerController;
 using System.Reflection;
 using UnityEngine;
 
@@ -19,11 +20,12 @@ namespace LethalRoles
             NetcodePatcherSetup();
 
             LoadComponents();
-            Harmony.CreateAndPatchAll(typeof(TerminalPatcher));
+
+            Harmony harmony = new(PluginInfo.PLUGIN_GUID);
+            harmony.PatchAll();
 
             Logger = BepInEx.Logging.Logger.CreateLogSource(PluginInfo.PLUGIN_NAME);
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} has been sucessfully loaded!");
-
         }
 
         private static void LoadComponents()

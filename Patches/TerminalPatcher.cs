@@ -13,6 +13,7 @@ using static LethalRoles.Utility.Utils;
 
 namespace LethalRoles.Patches
 {
+    [HarmonyPatch(typeof(Terminal))]
     public class TerminalPatcher
     {
         private static TerminalNode rolePickerTerminalNode;
@@ -26,8 +27,9 @@ namespace LethalRoles.Patches
 
         private static Role pendingRole = Role.None;
 
-        [HarmonyPatch(typeof(Terminal), "Start")]
+        [HarmonyPatch("Start")]
         [HarmonyPostfix]
+        [HarmonyDebug]
         private static void StartHook(ref Terminal __instance)
         {
             rolePickerTerminalNode = CreateTerminalNode(OverviewText);
@@ -43,8 +45,9 @@ namespace LethalRoles.Patches
         /// <summary> <c> 
         /// private TerminalNode ParsePlayerSentence()
         /// </c></summary>
-        [HarmonyPatch(typeof(Terminal), "ParsePlayerSentence")]
+        [HarmonyPatch("ParsePlayerSentence")]
         [HarmonyPrefix]
+        [HarmonyDebug]
         private static bool ParsePlayerSentenceHook(ref Terminal __instance, ref TerminalNode __result)
         {
             Terminal terminal = __instance;

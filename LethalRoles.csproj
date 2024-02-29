@@ -45,6 +45,9 @@
         <Reference Include="UnityEngine.UIModule">
             <HintPath>Managed\UnityEngine.UIModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+            <HintPath>Managed\UnityEngine.PhysicsModule.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
